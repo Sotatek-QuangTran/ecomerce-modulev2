@@ -1,0 +1,21 @@
+export enum OTPTYPE {
+  REGISTER = 'REGISTER',
+  FORGOT_USERNAME = 'FORGOT_USERNAME',
+  FORGOT_PASSWORD = 'FORGOT_PASSWORD',
+  RESET_PASSWORD = 'RESET_PASSWORD',
+}
+
+export enum TOKENTYPE {
+  LOGIN = 'LOGIN',
+  REFRESHTOKEN = 'REFRESHTOKEN',
+}
+
+export enum SORTBY {
+  DESC = 'DESC',
+  ASC = 'ASC',
+}
+
+export enum ROLE {
+  ADMIN = 'master',
+  USER = 'user',
+}
