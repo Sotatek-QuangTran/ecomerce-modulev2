@@ -2,9 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsOptional,
+  IsString,
   IsStrongPassword,
   MaxLength,
 } from 'class-validator';
+import { QueryCommonDto } from 'src/common';
 
 const MAX_LENGTH = 50;
 
@@ -25,3 +27,15 @@ export class UserCreateDto {
 }
 
 export class UserUpdateDto {}
+
+export class UserQueryDto extends QueryCommonDto {}
+
+export class UserSignIn {
+  @ApiProperty()
+  @IsString()
+  email: string;
+
+  @ApiProperty()
+  @IsString()
+  password: string;
+}

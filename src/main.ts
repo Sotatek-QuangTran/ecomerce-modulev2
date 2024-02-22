@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ExceptionError } from './exceptions/error.exception';
 
-const PORT = parseInt(process.env.PORT ?? '3001');
+const PORT = parseInt(process.env.PORT ?? '3002');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('/api');
+  app.setGlobalPrefix('api');
+  app.useGlobalFilters(new ExceptionError());
   const config = new DocumentBuilder()
     .addServer(process.env.DOMAIN)
     .addBearerAuth()
