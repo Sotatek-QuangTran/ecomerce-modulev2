@@ -1,4 +1,4 @@
-import { Body, Get, Post } from '@nestjs/common';
+import { Body, Post } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { UserCreateDto, UserSignIn } from '../dtos/user-req.dto';
 import { ControllerCustom } from 'src/decorators';
@@ -16,8 +16,7 @@ export class AuthController {
   @Post('/signup')
   @ApiCreatedResponse({ type: UserDto })
   async createUser(@Body() body: UserCreateDto) {
-    console.log(body);
-    return await this.userService.create(body);
+    return { data: await this.userService.create(body) };
   }
 
   @Post('/signin')
@@ -25,13 +24,10 @@ export class AuthController {
   async signIn(@Body() body: UserSignIn) {
     const user = await this.userService.findOneByUsernamePassword(body);
     const token = await this.jwtService.signAsync({
-      _id: user.id,
+      id: user.id,
     });
-    return { token, user };
-  }
-
-  @Get('')
-  async getList() {
-    return await this.userService.findAndCount({}, {});
+    return {
+      data: { token, user },
+    };
   }
 }

@@ -32,7 +32,7 @@ interface ClassConstructor {
 }
 
 export class SerializeInterceptor implements NestInterceptor {
-  constructor(private dto) { }
+  constructor(private dto) {}
   intercept(
     context: ExecutionContext,
     next: CallHandler<any>,
@@ -46,11 +46,6 @@ export class SerializeInterceptor implements NestInterceptor {
     );
   }
 }
-
-export function MongooseClassSerializerInterceptor( dto: any ) {
-  return UseInterceptors( new SerializeInterceptor( dto ) );
-}
-
 
 export function Serialize(dto?: ClassConstructor) {
   return UseInterceptors(new ResponseInterceptor(dto));

@@ -26,7 +26,17 @@ export class UserCreateDto {
   password: string;
 }
 
-export class UserUpdateDto {}
+export class UserUpdateDto {
+  @ApiProperty()
+  @IsEmail()
+  @MaxLength(50)
+  @IsOptional()
+  email: string;
+
+  @ApiProperty()
+  @IsOptional()
+  name: string;
+}
 
 export class UserQueryDto extends QueryCommonDto {}
 
