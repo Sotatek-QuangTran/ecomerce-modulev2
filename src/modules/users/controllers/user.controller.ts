@@ -3,11 +3,9 @@ import { UserService } from '../services/user.service';
 import { ControllerCustom } from 'src/decorators';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { UserDto } from '../dtos/user-res.dto';
-import { Auth } from 'src/decorators/auth.decorator';
 import { UserUpdateDto } from '../dtos/user-req.dto';
 
-@ControllerCustom('/users', 'Users')
-@Auth()
+@ControllerCustom('/users', 'Users', true)
 export class UserController {
   constructor(private userService: UserService) {}
 
