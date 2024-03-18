@@ -15,7 +15,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .addServer(process.env.DOMAIN)
     .addBearerAuth()
-    .setTitle('ecommerce-module')
+    .setTitle('ecommerce-module-v2')
     .setDescription('api ecommerce modulev2')
     .build();
   const document = SwaggerModule.createDocument(app, config);
