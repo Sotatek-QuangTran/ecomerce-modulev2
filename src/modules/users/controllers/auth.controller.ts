@@ -5,12 +5,14 @@ import { ControllerCustom } from 'src/decorators';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { UserDto } from '../dtos/user-res.dto';
 import { JwtService } from '@nestjs/jwt';
+import { RedisService } from 'src/shared/services/redis.service';
 
 @ControllerCustom('/auth', 'Auth')
 export class AuthController {
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
+    private redisService: RedisService,
   ) {}
 
   @Post('/signup')
@@ -26,6 +28,7 @@ export class AuthController {
     const token = await this.jwtService.signAsync({
       id: user.id,
     });
+    this.redisService.redis.set(user.id + '', token, 'EX', 60, 'NX');
     return {
       data: { token, user },
     };

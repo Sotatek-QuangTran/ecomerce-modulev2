@@ -6,10 +6,11 @@ import { UserController } from './controllers/user.controller';
 import { AuthController } from './controllers/auth.controller';
 import { SharedModule } from 'src/shared/shared.module';
 import { UserSubscriber } from './user.subscriber';
+import { RedisService } from 'src/shared/services/redis.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), SharedModule],
-  providers: [UserService, UserSubscriber],
+  providers: [UserService, UserSubscriber, RedisService],
   controllers: [UserController, AuthController],
   exports: [UserService],
 })
