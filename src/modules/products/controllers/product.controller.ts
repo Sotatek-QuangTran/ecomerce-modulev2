@@ -4,7 +4,7 @@ import { Get, Query } from '@nestjs/common';
 import { ProductQueryReq } from '../dtos/product-req.dto';
 import { PaginateService } from 'src/shared/services/paginate.service';
 
-@ControllerCustom('/products', 'Products')
+@ControllerCustom('/products', 'Products', true)
 export class ProductController {
   constructor(
     private productService: ProductService,

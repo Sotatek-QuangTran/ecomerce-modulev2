@@ -24,7 +24,7 @@ export class AuthenUserGuard implements CanActivate {
     //login here//
     const payload = await this.jwtService.verifyAsync(token);
     const getRedis = await this.redisService.get(payload.id);
-    if (!getRedis) {
+    if (!getRedis || getRedis !== payload.key) {
       throw new UnauthorizedException();
     }
     const user = await this.userService.findById(payload.id);

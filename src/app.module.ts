@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ProductModule } from './modules/products/product.module';
+import { PurchaseModule } from './modules/purchases/purchase.module';
 
 @Module({
   imports: [
@@ -42,6 +44,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       }),
     }),
     UserModule,
+    ProductModule,
+    PurchaseModule,
   ],
   providers: [
     {

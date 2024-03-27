@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { UserService } from './services/user.service';
@@ -8,6 +8,7 @@ import { SharedModule } from 'src/shared/shared.module';
 import { UserSubscriber } from './user.subscriber';
 import { RedisService } from 'src/shared/services/redis.service';
 
+@Global()
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), SharedModule],
   providers: [UserService, UserSubscriber, RedisService],

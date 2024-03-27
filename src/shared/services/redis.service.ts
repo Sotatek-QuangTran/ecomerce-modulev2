@@ -16,4 +16,8 @@ export class RedisService implements OnModuleInit {
   async get(key: string) {
     return await this.redis.get(key);
   }
+
+  async del(key: string) {
+    return await this.redis.del(key);
+  }
 }

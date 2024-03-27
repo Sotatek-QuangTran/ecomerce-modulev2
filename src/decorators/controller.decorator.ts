@@ -3,12 +3,26 @@ import { Controller } from '@nestjs/common';
 import { applyDecorators } from '@nestjs/common';
 import { Auth } from './auth.decorator';
 
+interface PrefixOrOptions {
+  prefix: string;
+  api_tag: string;
+  auth?: boolean;
+}
+
 export function ControllerCustom(
-  prefix: string,
+  prefixOrOptions: string | PrefixOrOptions,
   api_tag: string,
   auth?: boolean,
 ): ClassDecorator {
-  const decors = [ApiTags(api_tag), Controller(prefix)];
+  let prefix: string, tag: string;
+  if (typeof prefixOrOptions === 'string') {
+    prefix = prefixOrOptions;
+    tag = api_tag;
+  } else {
+    prefix = prefixOrOptions.prefix;
+    tag = prefixOrOptions.api_tag;
+  }
+  const decors = [ApiTags(tag), Controller(prefix)];
   if (auth) decors.push(Auth());
   return applyDecorators(...decors);
 }

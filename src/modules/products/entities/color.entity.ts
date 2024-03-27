@@ -2,7 +2,7 @@ import { EntityIdIntCommon } from 'src/common';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ProductColorEntity } from './product-color.entity';
 
-@Entity({ name: 'Colors' })
+@Entity({ name: 'colors' })
 export class ColorEntity extends EntityIdIntCommon {
   @Column({ name: 'color', type: 'varchar', length: 10 })
   color: string;
