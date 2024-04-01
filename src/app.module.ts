@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ProductModule } from './modules/products/product.module';
 import { PurchaseModule } from './modules/purchases/purchase.module';
+import { WhitePaperModule } from './modules/whitepapers/whitepaper.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { PurchaseModule } from './modules/purchases/purchase.module';
     UserModule,
     ProductModule,
     PurchaseModule,
+    WhitePaperModule,
   ],
   providers: [
     {

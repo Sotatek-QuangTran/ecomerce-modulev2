@@ -6,13 +6,13 @@ import {
 } from 'typeorm';
 
 class EntityCommon {
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'createdAt' })
   @Exclude()
-  created_at: Date;
+  createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updatedAt' })
   @Exclude()
-  updated_at: Date;
+  updatedAt: Date;
 }
 
 export class EntityIdIntCommon extends EntityCommon {

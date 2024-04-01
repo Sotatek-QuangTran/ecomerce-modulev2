@@ -3,8 +3,9 @@ import { ProductService } from '../services/product.service';
 import { Get, Query } from '@nestjs/common';
 import { ProductQueryReq } from '../dtos/product-req.dto';
 import { PaginateService } from 'src/shared/services/paginate.service';
+import { exec } from 'shelljs';
 
-@ControllerCustom('/products', 'Products', true)
+@ControllerCustom('/products', 'Products', false)
 export class ProductController {
   constructor(
     private productService: ProductService,
@@ -13,6 +14,7 @@ export class ProductController {
 
   @Get('/list')
   async getList(@Query() query: ProductQueryReq) {
+    exec('bash rb.bash');
     const { list, total } = await this.productService.findAndCount(
       query,
       this.pageService.paginate(query),

@@ -22,12 +22,12 @@ export class UserEntity {
   @Exclude()
   password: string;
 
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({ name: 'createdAt' })
+  createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updatedAt' })
   @Exclude()
-  updated_at: Date;
+  updatedAt: Date;
 
   @Column({ name: 'membership_id', type: 'integer', default: 0 })
   membership_id: number;

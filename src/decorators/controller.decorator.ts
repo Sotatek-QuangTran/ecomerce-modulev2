@@ -10,7 +10,11 @@ interface PrefixOrOptions {
 }
 
 // Overloaded functions
-function ControllerCustom(prefixOrOptions: string, api_tag: string, auth?: boolean): ClassDecorator;
+function ControllerCustom(
+  prefixOrOptions: string,
+  api_tag: string,
+  auth?: boolean,
+): ClassDecorator;
 function ControllerCustom(options: PrefixOrOptions): ClassDecorator;
 
 function ControllerCustom(
