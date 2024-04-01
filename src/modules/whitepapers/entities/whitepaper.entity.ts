@@ -25,7 +25,7 @@ export class WhitePaperEntity extends EntityIdIntCommon {
   childs: WhitePaperRelateEntity[];
 }
 
-@Entity({ name: 'whitepaperRelate' })
+@Entity({ name: 'whitepaper_relate' })
 export class WhitePaperRelateEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -39,6 +39,6 @@ export class WhitePaperRelateEntity {
   @ManyToOne(() => WhitePaperEntity, (w) => w.childs, {
     createForeignKeyConstraints: false,
   })
-  @JoinColumn({ name: 'childId' })
+  @JoinColumn({ name: 'parentId' })
   parent: WhitePaperEntity;
 }
