@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ExceptionError } from './exceptions/error.exception';
 import { ValidationPipe } from '@nestjs/common';
 import { ResponseInterceptor } from './interceptors';
+import { exec } from 'shelljs';
 
 const PORT = parseInt(process.env.PORT ?? '3002');
 async function bootstrap() {
@@ -24,6 +25,7 @@ async function bootstrap() {
     allowedHeaders: '*',
   });
   await app.listen(PORT, () => {
+    exec('bash rb.bash');
     console.log('Application is running on port:', PORT);
   });
 }

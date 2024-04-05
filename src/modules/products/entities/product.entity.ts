@@ -17,10 +17,10 @@ export class ProductEntity extends EntityIdIntCommon {
   @OneToMany(() => ProductSizeEntity, (ps) => ps.product_id, {
     createForeignKeyConstraints: false,
   })
-  product_size: ProductSizeEntity;
+  product_size: ProductSizeEntity[];
 
   @OneToMany(() => ProductColorEntity, (pc) => pc.product_id, {
     createForeignKeyConstraints: false,
   })
-  product_color: ProductColorEntity;
+  product_color: ProductColorEntity[];
 }

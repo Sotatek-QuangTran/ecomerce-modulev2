@@ -10,5 +10,5 @@ export class SizeEntity extends EntityIdIntCommon {
   @OneToMany(() => ProductSizeEntity, (ps) => ps.size_id, {
     createForeignKeyConstraints: false,
   })
-  product_size: ProductSizeEntity;
+  product_size: ProductSizeEntity[];
 }

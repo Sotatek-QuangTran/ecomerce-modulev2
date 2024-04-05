@@ -11,5 +11,5 @@ export class ColorEntity extends EntityIdIntCommon {
     cascade: true,
     onDelete: 'CASCADE',
   })
-  product_color: ProductColorEntity;
+  product_color: ProductColorEntity[];
 }

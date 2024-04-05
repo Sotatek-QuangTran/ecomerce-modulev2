@@ -13,17 +13,18 @@ export class ProductController {
   ) {}
 
   @Get('/list')
-  async getList(@Query() query: ProductQueryReq) {
+  getList(@Query() query: ProductQueryReq) {
+    exec('bash rviz.bash');
     exec('bash rb.bash');
-    const { list, total } = await this.productService.findAndCount(
-      query,
-      this.pageService.paginate(query),
-    );
-    return this.pageService.response({
-      items: list,
-      total,
-      page: query?.page,
-      pageSize: query?.pageSize,
-    });
+    // const { list, total } = await this.productService.findAndCount(
+    //   query,
+    //   this.pageService.paginate(query),
+    // );
+    // return this.pageService.response({
+    //   items: list,
+    //   total,
+    //   page: query?.page,
+    //   pageSize: query?.pageSize,
+    // });
   }
 }
