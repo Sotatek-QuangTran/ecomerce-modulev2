@@ -3,7 +3,7 @@ import { WhitePaperService } from '../services/whitepaper.service';
 import { Get } from '@nestjs/common';
 
 @ControllerCustom({
-  api_tag: 'Whitepaper',
+  apiTag: 'Whitepaper',
   prefix: 'whitepaper',
 })
 export class WhitePaperController {

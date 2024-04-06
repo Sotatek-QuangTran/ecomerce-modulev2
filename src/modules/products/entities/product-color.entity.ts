@@ -1,24 +1,26 @@
-import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { ColorEntity } from './color.entity';
 
-@Entity({ name: 'product_color' })
+@Entity()
 export class ProductColorEntity {
-  @PrimaryColumn({ name: 'product_id', type: 'integer' })
-  product_id: number;
+  @PrimaryColumn({ type: 'integer' })
+  productId: number;
 
-  @PrimaryColumn({ name: 'color_id', type: 'integer' })
-  color_id: number;
+  @PrimaryColumn({ type: 'integer' })
+  colorId: number;
 
-  @ManyToOne(() => ProductEntity, (p) => p.product_size, {
+  @ManyToOne(() => ProductEntity, (p) => p.productColor, {
     cascade: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'product_id' })
   product: ProductEntity;
 
   @ManyToOne(() => ColorEntity, (p) => p.color, {
     cascade: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'color_id' })
   color: ColorEntity;
 }

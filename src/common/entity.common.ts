@@ -6,11 +6,11 @@ import {
 } from 'typeorm';
 
 class EntityCommon {
-  @CreateDateColumn({ name: 'createdAt' })
+  @CreateDateColumn()
   @Exclude()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updatedAt' })
+  @UpdateDateColumn()
   @Exclude()
   updatedAt: Date;
 }

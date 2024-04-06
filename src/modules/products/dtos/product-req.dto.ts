@@ -13,15 +13,15 @@ export class ProductCreateDto {
 
   @ApiProperty()
   @IsInt()
-  size_id: number;
+  sizeId: number;
 
   @ApiProperty()
   @IsInt()
-  color_id: number;
+  colorId: number;
 
   @ApiProperty()
   @IsInt()
-  category_id: number;
+  categoryId: number;
 }
 
 export class ProductQueryReq extends QueryCommonDto {}

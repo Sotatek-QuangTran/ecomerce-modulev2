@@ -1,24 +1,26 @@
-import { Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { SizeEntity } from './size.entity';
 
-@Entity({ name: 'product_size' })
+@Entity()
 export class ProductSizeEntity {
-  @PrimaryColumn({ name: 'product_id' })
-  product_id: number;
+  @PrimaryColumn()
+  productId: number;
 
-  @PrimaryColumn({ name: 'size_id' })
-  size_id: number;
+  @PrimaryColumn()
+  sizeId: number;
 
-  @ManyToOne(() => ProductEntity, (p) => p.product_size, {
+  @ManyToOne(() => ProductEntity, (p) => p.productSize, {
     cascade: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'product_id' })
   product: ProductEntity;
 
-  @ManyToOne(() => SizeEntity, (s) => s.product_size, {
+  @ManyToOne(() => SizeEntity, (s) => s.productSize, {
     cascade: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'size_id' })
   size: SizeEntity;
 }

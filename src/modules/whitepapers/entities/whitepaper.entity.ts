@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity({ name: 'whitepapers' })
+@Entity()
 export class WhitePaperEntity extends EntityIdIntCommon {
   @Column({ name: 'content', type: 'text', nullable: true })
   content: string;
@@ -25,20 +25,20 @@ export class WhitePaperEntity extends EntityIdIntCommon {
   childs: WhitePaperRelateEntity[];
 }
 
-@Entity({ name: 'whitepaper_relate' })
+@Entity()
 export class WhitePaperRelateEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'parentId', type: 'int' })
+  @Column({ type: 'int' })
   parentId: number;
 
-  @Column({ name: 'childId', type: 'int' })
+  @Column({ type: 'int' })
   childId: number;
 
   @ManyToOne(() => WhitePaperEntity, (w) => w.childs, {
     createForeignKeyConstraints: false,
   })
-  @JoinColumn({ name: 'parentId' })
+  @JoinColumn({ name: 'parent_id' })
   parent: WhitePaperEntity;
 }

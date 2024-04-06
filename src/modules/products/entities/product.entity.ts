@@ -3,24 +3,24 @@ import { Column, Entity, OneToMany } from 'typeorm';
 import { ProductSizeEntity } from './product-size.entity';
 import { ProductColorEntity } from './product-color.entity';
 
-@Entity({ name: 'products' })
+@Entity()
 export class ProductEntity extends EntityIdIntCommon {
-  @Column({ name: 'name', type: 'text' })
+  @Column({ type: 'text' })
   name: string;
 
-  @Column({ name: 'price', type: 'float' })
+  @Column({ type: 'float' })
   price: number;
 
-  @Column({ name: 'category_id', type: 'integer' })
-  category_id: number;
+  @Column({ type: 'integer' })
+  categoryId: number;
 
-  @OneToMany(() => ProductSizeEntity, (ps) => ps.product_id, {
+  @OneToMany(() => ProductSizeEntity, (ps) => ps.productId, {
     createForeignKeyConstraints: false,
   })
-  product_size: ProductSizeEntity[];
+  productSize: ProductSizeEntity[];
 
-  @OneToMany(() => ProductColorEntity, (pc) => pc.product_id, {
+  @OneToMany(() => ProductColorEntity, (pc) => pc.productId, {
     createForeignKeyConstraints: false,
   })
-  product_color: ProductColorEntity[];
+  productColor: ProductColorEntity[];
 }

@@ -7,6 +7,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { ProductModule } from './modules/products/product.module';
 import { PurchaseModule } from './modules/purchases/purchase.module';
 import { WhitePaperModule } from './modules/whitepapers/whitepaper.module';
+import { SnakeNamingStrategy } from './snakecase.strategy';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { WhitePaperModule } from './modules/whitepapers/whitepaper.module';
         autoLoadEntities: true,
         entities: ['dist/**/*.entity.js'],
         synchronize: true,
+        namingStrategy: new SnakeNamingStrategy(),
         extra: {
           charset: 'utf8mb4_unicode_ci',
         },

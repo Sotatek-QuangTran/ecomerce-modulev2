@@ -18,7 +18,7 @@ export class ResponseInterceptor implements NestInterceptor {
   ): Observable<any> | Promise<Observable<any>> {
     return next.handle().pipe(
       map((data) => ({
-        error_code: 0,
+        errorCode: 0,
         message: data?.message || 'success',
         statusCode: context.switchToHttp().getResponse().statusCode,
         ...data,

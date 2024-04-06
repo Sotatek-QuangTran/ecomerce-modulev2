@@ -22,7 +22,7 @@ export class QueryCommonDto {
 
 export class ResponseCommonDto {
   @ApiProperty()
-  error_code: number;
+  errorCode: number;
 
   @ApiProperty()
   statusCode: number;

@@ -20,12 +20,12 @@ export class ExceptionError implements ExceptionFilter {
       if (Array.isArray(err.message) && err.message.length > 0)
         err.message = err.message[0];
       return response.status(status).json({
-        error_code: 1,
+        errorCode: 1,
         ...err,
       });
     }
     response.status(status).json({
-      error_code: 1,
+      errorCode: 1,
       statusCode: status,
       message: exception.message,
     });

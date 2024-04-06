@@ -19,7 +19,7 @@ export class PurchaseService {
       const manage = queryRunner.manager;
       await manage.save(
         manage.create(PurchaseEntity, {
-          user_id: data.user_id,
+          userId: data.userId,
         }),
       );
       for (const order of data.orders) {

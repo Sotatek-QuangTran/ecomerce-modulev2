@@ -7,30 +7,30 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'users' })
+@Entity()
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'email', type: 'varchar', length: 50, unique: true })
+  @Column({ type: 'varchar', length: 50, unique: true })
   email: string;
 
-  @Column({ name: 'name', type: 'varchar', length: 50, nullable: true })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   name: string;
 
-  @Column({ name: 'password', type: 'text' })
+  @Column({ type: 'text' })
   @Exclude()
   password: string;
 
-  @CreateDateColumn({ name: 'createdAt' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updatedAt' })
+  @UpdateDateColumn()
   @Exclude()
   updatedAt: Date;
 
-  @Column({ name: 'membership_id', type: 'integer', default: 0 })
-  membership_id: number;
+  @Column({ type: 'integer', default: 0 })
+  membershipId: number;
 
   formatDate: Date;
 }

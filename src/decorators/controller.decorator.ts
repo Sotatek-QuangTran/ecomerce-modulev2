@@ -5,32 +5,32 @@ import { Auth } from './auth.decorator';
 
 interface PrefixOrOptions {
   prefix: string;
-  api_tag: string;
+  apiTag: string;
   auth?: boolean;
 }
 
 // Overloaded functions
 function ControllerCustom(
   prefixOrOptions: string,
-  api_tag: string,
+  apiTag: string,
   auth?: boolean,
 ): ClassDecorator;
 function ControllerCustom(options: PrefixOrOptions): ClassDecorator;
 
 function ControllerCustom(
   prefixOrOptions: string | PrefixOrOptions,
-  api_tag?: string,
+  apiTag?: string,
   auth?: boolean,
 ): ClassDecorator {
   let prefix: string, tag: string;
   let decors = [];
   if (typeof prefixOrOptions === 'string') {
     prefix = prefixOrOptions;
-    tag = api_tag;
+    tag = apiTag;
     if (auth) decors.push(Auth());
   } else {
     prefix = prefixOrOptions.prefix;
-    tag = prefixOrOptions.api_tag;
+    tag = prefixOrOptions.apiTag;
     if (prefixOrOptions.auth) decors.push(Auth());
   }
   decors = [ApiTags(tag), Controller(prefix)];
