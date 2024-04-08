@@ -1,3 +1,4 @@
+# /bin/bash
 source /opt/ros/foxy/setup.bash
 cd /home/sotatek/ros2_ws
 . install/setup.bash
