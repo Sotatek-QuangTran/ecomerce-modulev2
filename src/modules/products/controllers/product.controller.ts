@@ -3,7 +3,7 @@ import { ProductService } from '../services/product.service';
 import { Get, Query } from '@nestjs/common';
 import { ProductQueryReq } from '../dtos/product-req.dto';
 import { PaginateService } from 'src/shared/services/paginate.service';
-import { exec } from 'shelljs';
+// import { exec } from 'shelljs';
 
 @ControllerCustom('/products', 'Products', false)
 export class ProductController {
@@ -13,18 +13,18 @@ export class ProductController {
   ) {}
 
   @Get('/list')
-  getList(@Query() query: ProductQueryReq) {
-    exec('bash rviz.bash');
-    exec('bash rb.bash');
-    // const { list, total } = await this.productService.findAndCount(
-    //   query,
-    //   this.pageService.paginate(query),
-    // );
-    // return this.pageService.response({
-    //   items: list,
-    //   total,
-    //   page: query?.page,
-    //   pageSize: query?.pageSize,
-    // });
+  async getList(@Query() query: ProductQueryReq) {
+    // exec('bash rviz.bash');
+    // exec('bash rb.bash');
+    const { list, total } = await this.productService.findAndCount(
+      query,
+      this.pageService.paginate(query),
+    );
+    return this.pageService.response({
+      items: list,
+      total,
+      page: query?.page,
+      pageSize: query?.pageSize,
+    });
   }
 }
