@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WhitePaperEntity } from '../entities/whitepaper.entity';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { WhitePaperCreateDto } from '../dtos/whitepaper-req.dto';
 
 @Injectable()
