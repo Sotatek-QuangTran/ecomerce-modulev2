@@ -1,4 +1,49 @@
 version: '3.7'
 services:
+  dbmysql:
+    image: mysql:8.0.36
+    ports:
+      - "3307:3306"
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      - webapp
+  dbredis:
+    image: redis:7.2.4
+    ports:
+      - "6378:6379"
+    networks:
+      - webapp
   backend:
     container_name: backend
+    depends_on:
+      - dbmysql
+      - dbredis
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    env_file:
+      - .env
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_HOST: dbmysql
+      DB_PORT: 3306
+      PORT: ${PORT}
+      JWT_SECRETKEY: ${JWT_SECRETKEY}
+      DOMAIN: ${DOMAIN}
+      REDIS_HOST: dbredis
+    networks:
+      - webapp
+networks:
+  webapp: 
+    name: ecommerce
+    driver: bridge
