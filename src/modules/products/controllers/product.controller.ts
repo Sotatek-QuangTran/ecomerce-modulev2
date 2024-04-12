@@ -3,6 +3,8 @@ import { ProductService } from '../services/product.service';
 import { Get, Query } from '@nestjs/common';
 import { ProductQueryReq } from '../dtos/product-req.dto';
 import { PaginateService } from 'src/shared/services/paginate.service';
+import { ApiOkResponse } from '@nestjs/swagger';
+import { ProductResponseDto } from '../dtos/product-res.dto';
 // import { exec } from 'shelljs';
 
 @ControllerCustom('/products', 'Products', false)
@@ -29,6 +31,7 @@ export class ProductController {
   }
 
   @Get('/detail/:id')
+  @ApiOkResponse({ type: ProductResponseDto })
   async getDetail() {
     return;
   }
