@@ -24,7 +24,7 @@ async function bootstrap() {
     allowedHeaders: '*',
   });
   await app.listen(PORT, () => {
-    console.log('Application is running on port:', PORT);
+    console.log('Application is running on the port:', PORT);
   });
 }
 bootstrap();
