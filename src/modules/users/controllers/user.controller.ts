@@ -1,4 +1,4 @@
-import { Body, Get, Put, Request } from '@nestjs/common';
+import { Body, Get, Post, Put, Request } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { ControllerCustom } from 'src/decorators';
 import { ApiOkResponse } from '@nestjs/swagger';
@@ -22,5 +22,10 @@ export class UserController {
     @Body() body: UserUpdateDto,
   ) {
     return { data: await this.userService.update(req.user.id, body) };
+  }
+
+  @Post('/signout')
+  async signOut(@Request() req: { user: { id: number } }) {
+    return req;
   }
 }
