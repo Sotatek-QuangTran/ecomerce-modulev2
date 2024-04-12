@@ -4,6 +4,7 @@ import { ControllerCustom } from 'src/decorators';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { UserDto } from '../dtos/user-res.dto';
 import { UserUpdateDto } from '../dtos/user-req.dto';
+import { ResponseOkDto } from 'src/common';
 
 @ControllerCustom('/users', 'Users', true)
 export class UserController {
@@ -25,6 +26,7 @@ export class UserController {
   }
 
   @Post('/signout')
+  @ApiOkResponse({ type: ResponseOkDto })
   async signOut(@Request() req: { user: { id: number } }) {
     return req;
   }
