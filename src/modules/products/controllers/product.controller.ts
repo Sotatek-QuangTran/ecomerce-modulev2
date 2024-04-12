@@ -27,4 +27,9 @@ export class ProductController {
       pageSize: query?.pageSize,
     });
   }
+
+  @Get('/detail/:id')
+  async getDetail() {
+    return;
+  }
 }
