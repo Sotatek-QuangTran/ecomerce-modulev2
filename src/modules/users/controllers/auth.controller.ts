@@ -1,4 +1,4 @@
-import { Body, Get, Post } from '@nestjs/common';
+import { Body, Post } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { UserCreateDto, UserSignIn } from '../dtos/user-req.dto';
 import { ControllerCustom } from 'src/decorators';
@@ -37,10 +37,5 @@ export class AuthController {
     return {
       data: { token, user },
     };
-  }
-
-  @Get('/multi')
-  async getUser10() {
-    return { data: await this.userService.ageMulti10() };
   }
 }
