@@ -1,7 +1,7 @@
 pipeline{
     agent none
     stages{
-        stage("build"){
+        stage("deploy"){
             steps{
                 sh docker-compose up -d
             }
