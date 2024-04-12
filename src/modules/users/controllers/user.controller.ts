@@ -1,4 +1,4 @@
-import { Body, Put, Request } from '@nestjs/common';
+import { Body, Get, Put, Request } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { ControllerCustom } from 'src/decorators';
 import { ApiOkResponse } from '@nestjs/swagger';
@@ -8,6 +8,12 @@ import { UserUpdateDto } from '../dtos/user-req.dto';
 @ControllerCustom('/users', 'Users', true)
 export class UserController {
   constructor(private userService: UserService) {}
+
+  @Get('/detail')
+  @ApiOkResponse({ type: UserDto })
+  async getUser(@Request() req: { user: { id: number } }) {
+    return { data: await this.userService.findById(req.user.id) };
+  }
 
   @Put('/update')
   @ApiOkResponse({ type: UserDto })
