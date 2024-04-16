@@ -4,7 +4,7 @@ import { ProductColorEntity } from './product-color.entity';
 
 @Entity()
 export class ColorEntity extends EntityIdIntCommon {
-  @Column(['color', 'column'])
+  @Column()
   color: string;
 
   @OneToMany(() => ProductColorEntity, (pc) => pc.colorId, {
