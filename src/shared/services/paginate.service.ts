@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { QueryCommonDto } from 'src/common';
+import { IPaginate } from 'src/common/inteface.common';
 
 @Injectable()
 export class PaginateService {
-  paginate(data: QueryCommonDto) {
+  paginate(data: QueryCommonDto): IPaginate {
     const page = data.page || 1;
     const pageSize = data.pageSize || 10;
     const sortBy = data.sortBy || 'desc';

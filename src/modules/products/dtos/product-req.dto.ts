@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNumber, IsString } from 'class-validator';
+import { IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 import { QueryCommonDto } from 'src/common';
 
 export class ProductCreateDto {
@@ -24,4 +24,8 @@ export class ProductCreateDto {
   categoryId: number;
 }
 
-export class ProductQueryReq extends QueryCommonDto {}
+export class ProductQueryReq extends QueryCommonDto {
+  @ApiProperty({ required: false })
+  @IsOptional()
+  categoryId: number;
+}

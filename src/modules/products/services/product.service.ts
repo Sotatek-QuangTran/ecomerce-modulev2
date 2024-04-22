@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../entities/product.entity';
-import { Repository } from 'typeorm';
+import { IsNull, MoreThan, Not, Repository } from 'typeorm';
 import { ProductCreateDto } from '../dtos/product-req.dto';
+import { IPaginate } from 'src/common/inteface.common';
 
 @Injectable()
 export class ProductService {
@@ -15,10 +16,22 @@ export class ProductService {
     return await this.productEntity.save(this.productEntity.create(data));
   }
 
-  async findAndCount(criteria, pagination) {
+  async findAndCount(criteria, pagination: IPaginate) {
     const [list, total] = await this.productEntity.findAndCount({
       ...pagination,
-      where: criteria,
+      where: {
+        ...criteria,
+        productVariants: {
+          id: Not(IsNull()),
+          colorId: MoreThan(0),
+          sizeId: MoreThan(0),
+        },
+      },
+      relations: [
+        'productVariants',
+        'productVariants.color',
+        'productVariants.size',
+      ],
     });
     return { list, total };
   }
