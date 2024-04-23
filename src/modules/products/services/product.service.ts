@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../entities/product.entity';
 import { IsNull, MoreThan, Not, Repository } from 'typeorm';
@@ -34,5 +34,20 @@ export class ProductService {
       ],
     });
     return { list, total };
+  }
+
+  async findById(id: number) {
+    const product = await this.productEntity.findOne({
+      where: { id },
+      relations: [
+        'productVariants',
+        'productVariants.color',
+        'productVariants.size',
+      ],
+    });
+    if (!product) {
+      throw new NotFoundException();
+    }
+    return product;
   }
 }

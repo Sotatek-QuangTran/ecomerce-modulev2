@@ -1,8 +1,9 @@
 import { EntityIdIntCommon } from 'src/common';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { SizeEntity } from './size.entity';
 import { ColorEntity } from './color.entity';
+import { OrderEntity } from 'src/modules/purchases/entities/order.entity';
 
 @Entity()
 export class ProductVariantEntity extends EntityIdIntCommon {
@@ -37,4 +38,11 @@ export class ProductVariantEntity extends EntityIdIntCommon {
   })
   @JoinColumn({ name: 'color_id' })
   color: SizeEntity;
+
+  @OneToMany(() => OrderEntity, (o) => o.productVariant, {
+    createForeignKeyConstraints: false,
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  orders: OrderEntity[];
 }

@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { BcryptService } from './services/bcrypt.service';
 import { PaginateService } from './services/paginate.service';
 import { RedisService } from './services/redis.service';
+import { CriteriaService } from './services/criteria.service';
 
 @Module({
-  providers: [BcryptService, PaginateService, RedisService],
-  exports: [BcryptService, PaginateService, RedisService],
+  providers: [BcryptService, PaginateService, RedisService, CriteriaService],
+  exports: [BcryptService, PaginateService, RedisService, CriteriaService],
 })
 export class SharedModule {}
