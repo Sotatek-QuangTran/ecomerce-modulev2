@@ -4,6 +4,7 @@ import { PurchaseEntity } from '../entities/purchase.entity';
 import { DataSource, Repository } from 'typeorm';
 import { PurchaseCreateDto } from '../dtos/purchase-req.dto';
 import { OrderEntity } from '../entities/order.entity';
+import { IPaginate } from 'src/common/inteface.common';
 
 @Injectable()
 export class PurchaseService {
@@ -42,5 +43,14 @@ export class PurchaseService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async findAndCount(criteria, pagination: IPaginate) {
+    const [list, total] = await this.purchaseEntity.findAndCount({
+      ...pagination,
+      where: criteria,
+      relations: ['orders'],
+    });
+    return { list, total };
   }
 }
