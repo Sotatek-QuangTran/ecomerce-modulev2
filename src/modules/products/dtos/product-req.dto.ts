@@ -27,5 +27,5 @@ export class ProductCreateDto {
 export class ProductQueryReq extends QueryCommonDto {
   @ApiProperty({ required: false })
   @IsOptional()
-  categoryId: number;
+  categoryId?: number;
 }

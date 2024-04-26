@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PurchaseEntity } from '../entities/purchase.entity';
 import { DataSource, Repository } from 'typeorm';
 import { PurchaseCreateDto } from '../dtos/purchase-req.dto';
 import { OrderEntity } from '../entities/order.entity';
 import { IPaginate } from 'src/common/inteface.common';
+import { ProductVariantEntity } from 'src/modules/products/entities/product-variant.entity';
 
 @Injectable()
 export class PurchaseService {
@@ -28,9 +29,20 @@ export class PurchaseService {
       const orders = [];
       for (const order of data.orders) {
         order.purchaseId = purchase.id;
+        const variant = await manage.findOne(ProductVariantEntity, {
+          where: { id: order.productVariantId },
+        });
+        if (variant.stock - order.quantity < 0) {
+          throw new BadRequestException('Out of stock');
+        }
         const save = await manage.save(
           OrderEntity,
           manage.create(OrderEntity, order),
+        );
+        await manage.update(
+          ProductVariantEntity,
+          { id: variant.id },
+          { stock: variant.stock - order.quantity },
         );
         orders.push(save);
       }
