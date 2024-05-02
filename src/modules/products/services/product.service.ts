@@ -63,20 +63,37 @@ export class ProductService {
       .orderBy('p_total_sale', 'DESC')
       .take(pagination.take)
       .skip(pagination.skip)
-      // .groupBy('p.id')
       .groupBy('v.id')
       .getRawAndEntities();
 
-    // const list = entities.map((entity: any, i) => {
-    //   entity.total_sale = +raw[i].p_total_sale;
-    //   return entity;
-    // });
     const list = entities.map((entity) => {
       entity.productVariants.map((v: any) => {
         const variant = raw.find((r) => r.v_id === v.id);
         v.total_sale = +variant.p_total_sale;
         return v;
       });
+      return entity;
+    });
+    const total = await this.productEntity.count({
+      where: criteria,
+    });
+    return { list, total };
+  }
+
+  async findAndSaleByProduct(criteria: ProductQueryReq, pagination: IPaginate) {
+    const { entities, raw } = await this.productEntity
+      .createQueryBuilder('p')
+      .leftJoin('p.productVariants', 'v')
+      .leftJoinAndSelect('v.orders', 'o')
+      .addSelect('coalesce(SUM(`o`.`quantity`),0)', 'p_total_sale')
+      .orderBy('p_total_sale', 'DESC')
+      .take(pagination.take)
+      .skip(pagination.skip)
+      .groupBy('p.id')
+      .getRawAndEntities();
+
+    const list = entities.map((entity: any, i) => {
+      entity.total_sale = +raw[i].p_total_sale;
       return entity;
     });
     const total = await this.productEntity.count({
