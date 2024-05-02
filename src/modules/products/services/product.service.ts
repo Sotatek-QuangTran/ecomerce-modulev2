@@ -54,7 +54,7 @@ export class ProductService {
     return product;
   }
 
-  async findQueryBuilder(criteria, pagination: IPaginate) {
+  async findQueryBuilder(criteria: ProductQueryReq, pagination: IPaginate) {
     const { entities, raw } = await this.productEntity
       .createQueryBuilder('p')
       .leftJoinAndSelect('p.productVariants', 'v')
