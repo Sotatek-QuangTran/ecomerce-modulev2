@@ -5,10 +5,14 @@ import { ApiOkResponse } from '@nestjs/swagger';
 import { UserDto } from '../dtos/user-res.dto';
 import { UserUpdateDto } from '../dtos/user-req.dto';
 import { ResponseOkDto } from 'src/common';
+import { RedisService } from 'src/shared/services/redis.service';
 
 @ControllerCustom('/users', 'Users', true)
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private redisService: RedisService,
+  ) {}
 
   @Get('/detail')
   @ApiOkResponse({ type: UserDto })
@@ -28,6 +32,7 @@ export class UserController {
   @Post('/signout')
   @ApiOkResponse({ type: ResponseOkDto })
   async signOut(@Request() req: { user: { id: number } }) {
+    await this.redisService.del(req.user.id + '');
     return req;
   }
 }

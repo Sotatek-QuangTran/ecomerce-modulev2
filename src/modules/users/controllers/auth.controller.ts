@@ -32,8 +32,8 @@ export class AuthController {
       key,
     });
     await this.redisService.del(user.id + '');
-    this.redisService.redis.set(user.id + '', key, 'NX');
-    // this.redisService.redis.set(user.id + '', token, 'EX', 60, 'NX');
+    // await this.redisService.redis.set(user.id + '', key, 'NX');
+    await this.redisService.redis.set(user.id + '', key, 'EX', 3600, 'NX');
     return {
       data: { token, user },
     };

@@ -72,10 +72,4 @@ export class UserService {
     await this.bcryptService.compareBcrypt(password, user.password);
     return user;
   }
-
-  async ageMulti10() {
-    return await this.userEntity
-      .createQueryBuilder('u')
-      .getMany();
-  }
 }

@@ -1,7 +1,7 @@
 import { ControllerCustom } from 'src/decorators';
 import { ProductService } from '../services/product.service';
-import { Get, Query } from '@nestjs/common';
-import { ProductQueryReq } from '../dtos/product-req.dto';
+import { Body, Get, Post, Query } from '@nestjs/common';
+import { ProductCreateDto, ProductQueryReq } from '../dtos/product-req.dto';
 import { PaginateService } from 'src/shared/services/paginate.service';
 
 @ControllerCustom('/admin/product', 'Admin Product')
@@ -37,5 +37,12 @@ export class AdminProductController {
       page: query?.page,
       pageSize: query?.pageSize,
     });
+  }
+
+  @Post('/create')
+  async createProduct(@Body() body: ProductCreateDto) {
+    return {
+      data: await this.productService.create(body),
+    };
   }
 }

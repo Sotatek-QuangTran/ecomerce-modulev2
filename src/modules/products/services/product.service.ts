@@ -101,4 +101,9 @@ export class ProductService {
     });
     return { list, total };
   }
+
+  async update(id: number, data) {
+    await this.productEntity.update({ id }, data);
+    return await this.findById(id);
+  }
 }
