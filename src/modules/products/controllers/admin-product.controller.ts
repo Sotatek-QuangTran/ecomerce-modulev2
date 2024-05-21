@@ -41,8 +41,6 @@ export class AdminProductController {
 
   @Post('/create')
   async createProduct(@Body() body: ProductCreateDto) {
-    return {
-      data: await this.productService.create(body),
-    };
+    return await this.productService.create(body);
   }
 }

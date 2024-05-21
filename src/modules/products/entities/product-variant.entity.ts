@@ -7,7 +7,7 @@ import { OrderEntity } from 'src/modules/purchases/entities/order.entity';
 
 @Entity()
 export class ProductVariantEntity extends EntityIdIntCommon {
-  @Column({ type: 'int' })
+  @Column({ type: 'bigint' })
   productId: number;
 
   @Column({ type: 'int' })

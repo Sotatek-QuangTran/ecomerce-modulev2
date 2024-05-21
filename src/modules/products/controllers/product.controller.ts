@@ -32,6 +32,6 @@ export class ProductController {
   @Get('/detail/:id')
   @ApiOkResponse({ type: ProductResponseDto })
   async getDetail(@Param('id') id: number) {
-    return { data: await this.productService.findById(id) };
+    return await this.productService.findById(id);
   }
 }

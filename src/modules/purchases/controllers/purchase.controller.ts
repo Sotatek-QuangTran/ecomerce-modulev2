@@ -15,7 +15,7 @@ export class PurchaseController {
 
   @Post('/create')
   async createPurchase(@Body() body: PurchaseCreateDto) {
-    return { data: await this.purchaseService.create(body) };
+    return await this.purchaseService.create(body);
   }
 
   @Get('/list')

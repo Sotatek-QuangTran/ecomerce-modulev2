@@ -17,7 +17,7 @@ class EntityCommon {
 }
 
 export class EntityIdIntCommon extends EntityCommon {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
 }
 

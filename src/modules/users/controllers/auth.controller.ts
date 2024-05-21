@@ -19,7 +19,7 @@ export class AuthController {
   @Post('/signup')
   @ApiCreatedResponse({ type: UserDto })
   async createUser(@Body() body: UserCreateDto) {
-    return { data: await this.userService.create(body) };
+    return await this.userService.create(body);
   }
 
   @Post('/signin')
@@ -34,8 +34,6 @@ export class AuthController {
     await this.redisService.del(user.id + '');
     // await this.redisService.redis.set(user.id + '', key, 'NX');
     await this.redisService.redis.set(user.id + '', key, 'EX', 3600, 'NX');
-    return {
-      data: { token, user },
-    };
+    return { token, user };
   }
 }

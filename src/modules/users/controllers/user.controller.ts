@@ -17,7 +17,7 @@ export class UserController {
   @Get('/detail')
   @ApiOkResponse({ type: UserDto })
   async getUser(@Request() req: { user: { id: number } }) {
-    return { data: await this.userService.findById(req.user.id) };
+    return await this.userService.findById(req.user.id);
   }
 
   @Put('/update')
@@ -26,7 +26,7 @@ export class UserController {
     @Request() req: { user: { id: number } },
     @Body() body: UserUpdateDto,
   ) {
-    return { data: await this.userService.update(req.user.id, body) };
+    return await this.userService.update(req.user.id, body);
   }
 
   @Post('/signout')
