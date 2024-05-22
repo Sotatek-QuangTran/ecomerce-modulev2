@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartEntity } from '../entities/cart.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CartCreateDto, CartUpdateDto } from '../dtos/card-req.dto';
 import { ProductVariantService } from 'src/modules/products/services/product-variant.service';
 
@@ -40,5 +40,9 @@ export class CartService {
 
   async remove(id: number) {
     return await this.cartEntity.delete({ id });
+  }
+
+  async softRemove(ids: number[]) {
+    return await this.cartEntity.softDelete({ id: In(ids) });
   }
 }
