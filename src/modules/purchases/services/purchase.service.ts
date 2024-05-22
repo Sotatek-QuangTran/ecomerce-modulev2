@@ -6,6 +6,7 @@ import { PurchaseCreateDto } from '../dtos/purchase-req.dto';
 import { OrderEntity } from '../entities/order.entity';
 import { IPaginate } from 'src/common/inteface.common';
 import { ProductVariantEntity } from 'src/modules/products/entities/product-variant.entity';
+import { CartEntity } from 'src/modules/carts/entities/cart.entity';
 
 @Injectable()
 export class PurchaseService {
@@ -44,6 +45,10 @@ export class PurchaseService {
           { id: variant.id },
           { stock: variant.stock - order.quantity },
         );
+        await manage.softDelete(CartEntity, {
+          userId: data.userId,
+          productVariantId: order.productVariantId,
+        });
         orders.push(save);
       }
       purchase.orders = orders;

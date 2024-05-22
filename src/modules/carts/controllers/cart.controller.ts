@@ -23,9 +23,6 @@ export class CartController {
 
   @Put('/update/:id')
   async updateCart(@Param('id') id: number, @Body() body: CartUpdateDto) {
-    if (body.quantity <= 0) {
-      return await this.cartService.remove(id);
-    }
     return await this.cartService.update(id, body);
   }
 

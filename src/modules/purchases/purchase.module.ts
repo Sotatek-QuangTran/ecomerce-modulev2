@@ -6,11 +6,13 @@ import { PurchaseService } from './services/purchase.service';
 import { PurchaseController } from './controllers/purchase.controller';
 import { PurchaseEntity } from './entities/purchase.entity';
 import { SharedModule } from 'src/shared/shared.module';
+import { CartModule } from '../carts/cart.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([OrderEntity, PurchaseEntity]),
     SharedModule,
+    CartModule,
   ],
   providers: [OrderService, PurchaseService],
   controllers: [PurchaseController],
