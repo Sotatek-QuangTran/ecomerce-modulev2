@@ -8,6 +8,7 @@ import { ProductService } from './services/product.service';
 import { ProductController } from './controllers/product.controller';
 import { AdminProductController } from './controllers/admin-product.controller';
 import { ProductVariantEntity } from './entities/product-variant.entity';
+import { ProductVariantService } from './services/product-variant.service';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { ProductVariantEntity } from './entities/product-variant.entity';
     ]),
     SharedModule,
   ],
-  providers: [ProductService],
+  providers: [ProductService, ProductVariantService],
   controllers: [ProductController, AdminProductController],
+  exports: [ProductVariantService],
 })
 export class ProductModule {}
