@@ -8,6 +8,7 @@ import { ProductModule } from './modules/products/product.module';
 import { PurchaseModule } from './modules/purchases/purchase.module';
 import { WhitePaperModule } from './modules/whitepapers/whitepaper.module';
 import { SnakeNamingStrategy } from './snakecase.strategy';
+import { CartModule } from './modules/carts/cart.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { SnakeNamingStrategy } from './snakecase.strategy';
     ProductModule,
     PurchaseModule,
     WhitePaperModule,
+    CartModule,
   ],
   providers: [
     {

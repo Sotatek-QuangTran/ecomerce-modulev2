@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartEntity } from '../entities/cart.entity';
 import { Repository } from 'typeorm';
-import { CartCreateDto } from '../dtos/card-req.dto';
+import { CartCreateDto, CartUpdateDto } from '../dtos/card-req.dto';
 import { ProductVariantService } from 'src/modules/products/services/product-variant.service';
 
 @Injectable()
@@ -22,5 +22,23 @@ export class CartService {
       where: { userId },
       order: { id: 'DESC' },
     });
+  }
+
+  async findById(id: number) {
+    const cart = await this.cartEntity.findOne({
+      where: { id },
+    });
+    if (!cart) {
+      throw new NotFoundException('Cart Not Found');
+    }
+  }
+
+  async update(id: number, data: CartUpdateDto) {
+    await this.cartEntity.update({ id }, data);
+    return await this.findById(id);
+  }
+
+  async remove(id: number) {
+    return await this.cartEntity.delete({ id });
   }
 }

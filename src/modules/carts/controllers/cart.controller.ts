@@ -1,7 +1,7 @@
 import { ControllerCustom } from 'src/decorators';
-import { CartService } from '../services/card.service';
-import { Body, Get, Post, Request } from '@nestjs/common';
-import { CartCreateDto } from '../dtos/card-req.dto';
+import { CartService } from '../services/cart.service';
+import { Body, Delete, Get, Param, Post, Put, Request } from '@nestjs/common';
+import { CartCreateDto, CartUpdateDto } from '../dtos/card-req.dto';
 
 @ControllerCustom('/cart', 'Cart', true)
 export class CartController {
@@ -19,5 +19,18 @@ export class CartController {
   @Get('')
   async getCart(@Request() req: { user: { id: number } }) {
     return await this.cartService.findCartByUser(req.user.id);
+  }
+
+  @Put('/update/:id')
+  async updateCart(@Param('id') id: number, @Body() body: CartUpdateDto) {
+    if (body.quantity <= 0) {
+      return await this.cartService.remove(id);
+    }
+    return await this.cartService.update(id, body);
+  }
+
+  @Delete('/delete/:id')
+  async deleteCart(@Param('id') id: number) {
+    return await this.cartService.remove(id);
   }
 }

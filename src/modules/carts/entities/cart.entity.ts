@@ -9,7 +9,7 @@ export class CartEntity extends EntityIdIntDeletedAtCommon {
   @Column({ type: 'bigint' })
   userId: number;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'int', default: 1 })
   quantity: number;
 
   @Column({ type: 'float', default: 0 })
