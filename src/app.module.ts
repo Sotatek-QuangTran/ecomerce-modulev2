@@ -9,6 +9,7 @@ import { PurchaseModule } from './modules/purchases/purchase.module';
 import { WhitePaperModule } from './modules/whitepapers/whitepaper.module';
 import { SnakeNamingStrategy } from './snakecase.strategy';
 import { CartModule } from './modules/carts/cart.module';
+import { FavoriteModule } from './modules/favorites/favorite.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { CartModule } from './modules/carts/cart.module';
     PurchaseModule,
     WhitePaperModule,
     CartModule,
+    FavoriteModule,
   ],
   providers: [
     {
