@@ -2,7 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from '../entities/product.entity';
 import { IsNull, MoreThan, Not, Repository } from 'typeorm';
-import { ProductCreateDto, ProductQueryReq } from '../dtos/product-req.dto';
+import {
+  ProductCreateDto,
+  ProductQueryReq,
+  ProductUpdateDto,
+} from '../dtos/product-req.dto';
 import { IPaginate } from 'src/common/inteface.common';
 import { ProductVariantEntity } from '../entities/product-variant.entity';
 
@@ -86,7 +90,9 @@ export class ProductService {
       .leftJoin('p.productVariants', 'v')
       .leftJoinAndSelect('v.orders', 'o')
       .addSelect('coalesce(SUM(`o`.`quantity`),0)', 'p_total_sale')
+      .where(criteria)
       .orderBy('p_total_sale', 'DESC')
+      .addOrderBy('p.id', 'DESC')
       .take(pagination.take)
       .skip(pagination.skip)
       .groupBy('p.id')
@@ -102,8 +108,12 @@ export class ProductService {
     return { list, total };
   }
 
-  async update(id: number, data) {
+  async update(id: number, data: ProductUpdateDto) {
     await this.productEntity.update({ id }, data);
     return await this.findById(id);
+  }
+
+  async remove(id: number) {
+    return await this.productEntity.softDelete(id);
   }
 }

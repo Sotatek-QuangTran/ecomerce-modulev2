@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QueryCommonDto } from 'src/common';
 import { IPaginate } from 'src/common/inteface.common';
+import { ProductQueryReq } from 'src/modules/products/dtos/product-req.dto';
 
 @Injectable()
 export class PaginateService {
@@ -33,5 +34,15 @@ export class PaginateService {
         pageCount: Math.ceil(data.total / pageSize),
       },
     };
+  }
+
+  filterPaginateParam(query: any): ProductQueryReq {
+    const result = {};
+    for (const item in query) {
+      if (!['page', 'pageSize', 'sortBy', 'sortField'].includes(item)) {
+        result[item] = query[item];
+      }
+    }
+    return result;
   }
 }

@@ -14,7 +14,7 @@ export class AdminProductController {
   @Get('/list')
   async listProduct(@Query() query: ProductQueryReq) {
     const { list, total } = await this.productService.findQueryBuilder(
-      query,
+      this.pageService.filterPaginateParam(query),
       this.pageService.paginate(query),
     );
     return this.pageService.response({
@@ -28,7 +28,7 @@ export class AdminProductController {
   @Get('/total-sales')
   async listWithTotalSale(@Query() query: ProductQueryReq) {
     const { list, total } = await this.productService.findAndSaleByProduct(
-      query,
+      this.pageService.filterPaginateParam(query),
       this.pageService.paginate(query),
     );
     return this.pageService.response({
