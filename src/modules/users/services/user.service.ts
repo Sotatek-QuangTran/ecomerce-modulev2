@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import { UserCreateDto } from '../dtos/user-req.dto';
+import { UserCreateDto, UserUpdateDto } from '../dtos/user-req.dto';
 import { BcryptService } from 'src/shared/services/bcrypt.service';
 
 @Injectable()
@@ -27,9 +27,9 @@ export class UserService {
     return await this.userEntity.save(this.userEntity.create(data));
   }
 
-  async findById(id: number) {
+  async findOne(criteria: UserUpdateDto) {
     const user = await this.userEntity.findOne({
-      where: { id },
+      where: criteria,
     });
     if (!user) {
       throw new NotFoundException('User not found');
@@ -48,9 +48,9 @@ export class UserService {
     return user;
   }
 
-  async update(id: number, data) {
+  async update(id: number, data: UserUpdateDto) {
     await this.userEntity.update({ id }, data);
-    return await this.findById(id);
+    return await this.findOne({ id });
   }
 
   async findAndCount(criteria, pagination) {

@@ -17,7 +17,7 @@ export class UserController {
   @Get('/detail')
   @ApiOkResponse({ type: UserDto })
   async getUser(@Request() req: { user: { id: number } }) {
-    return await this.userService.findById(req.user.id);
+    return await this.userService.findOne({ id: req.user.id });
   }
 
   @Put('/update')

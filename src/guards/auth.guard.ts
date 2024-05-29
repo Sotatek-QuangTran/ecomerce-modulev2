@@ -27,7 +27,7 @@ export class AuthenUserGuard implements CanActivate {
     if (!getRedis || getRedis !== payload.key) {
       throw new UnauthorizedException();
     }
-    const user = await this.userService.findById(payload.id);
+    const user = await this.userService.findOne({ id: payload.id });
     request['user'] = user;
     return true;
   }

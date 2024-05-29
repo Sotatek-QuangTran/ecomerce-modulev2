@@ -1,6 +1,11 @@
 import { Body, Post } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { UserCreateDto, UserSignIn } from '../dtos/user-req.dto';
+import {
+  UserCreateDto,
+  UserEmailDto,
+  UserSignIn,
+  UserVerifyForgotPassDto,
+} from '../dtos/user-req.dto';
 import { ControllerCustom } from 'src/decorators';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { UserDto } from '../dtos/user-res.dto';
@@ -35,5 +40,16 @@ export class AuthController {
     // await this.redisService.redis.set(user.id + '', key, 'NX');
     await this.redisService.redis.set(user.id + '', key, 'EX', 3600, 'NX');
     return { token, user };
+  }
+
+  @Post('/forgot-password')
+  async forgotPassword(@Body() body: UserEmailDto) {
+    const user = await this.userService.findOne({ email: body.email });
+    return user;
+  }
+
+  @Post('/verify-forgot-password')
+  async verifyForgotPassword(@Body() body: UserVerifyForgotPassDto) {
+    return body;
   }
 }

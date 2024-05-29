@@ -31,21 +31,31 @@ export class UserUpdateDto {
   @IsEmail()
   @MaxLength(50)
   @IsOptional()
-  email: string;
+  email?: string;
 
   @ApiProperty()
   @IsOptional()
-  name: string;
+  name?: string;
+
+  id?: number;
 }
 
 export class UserQueryDto extends QueryCommonDto {}
 
-export class UserSignIn {
+export class UserEmailDto {
   @ApiProperty()
   @IsString()
   email: string;
+}
 
+export class UserSignIn extends UserEmailDto {
   @ApiProperty()
   @IsString()
   password: string;
+}
+
+export class UserVerifyForgotPassDto {
+  @ApiProperty()
+  @IsString()
+  code: string;
 }
