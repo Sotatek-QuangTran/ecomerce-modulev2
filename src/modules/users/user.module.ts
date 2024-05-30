@@ -7,10 +7,11 @@ import { AuthController } from './controllers/auth.controller';
 import { SharedModule } from 'src/shared/shared.module';
 import { UserSubscriber } from './user.subscriber';
 import { RedisService } from 'src/shared/services/redis.service';
+import { MailModule } from '../mail/mail.module';
 
 @Global()
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), SharedModule],
+  imports: [TypeOrmModule.forFeature([UserEntity]), SharedModule, MailModule],
   providers: [UserService, UserSubscriber, RedisService],
   controllers: [UserController, AuthController],
   exports: [UserService],

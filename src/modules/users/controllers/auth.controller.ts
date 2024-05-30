@@ -12,6 +12,8 @@ import { UserDto } from '../dtos/user-res.dto';
 import { JwtService } from '@nestjs/jwt';
 import { RedisService } from 'src/shared/services/redis.service';
 import { v4 } from 'uuid';
+import { MailService } from 'src/modules/mail/services/mail.service';
+import { ConfigService } from '@nestjs/config';
 
 @ControllerCustom('/auth', 'Auth')
 export class AuthController {
@@ -19,12 +21,19 @@ export class AuthController {
     private userService: UserService,
     private jwtService: JwtService,
     private redisService: RedisService,
+    private mailService: MailService,
+    private configService: ConfigService,
   ) {}
 
   @Post('/signup')
   @ApiCreatedResponse({ type: UserDto })
   async createUser(@Body() body: UserCreateDto) {
-    return await this.userService.create(body);
+    await this.userService.create(body);
+    await this.mailService.sendMailRegister({
+      email: body.email,
+      url: this.configService.get('DOMAIN') + '/verify-register',
+    });
+    return { success: true };
   }
 
   @Post('/signin')
