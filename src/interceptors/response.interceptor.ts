@@ -20,7 +20,6 @@ export class ResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         let response = data;
-        console.log(data);
         if (data?.total !== undefined) {
           response = this.pageService.response({
             items: data.list,
