@@ -13,16 +13,10 @@ export class AdminProductController {
 
   @Get('/list')
   async listProduct(@Query() query: ProductQueryReq) {
-    const { list, total } = await this.productService.findQueryBuilder(
+    return await this.productService.findQueryBuilder(
       this.pageService.filterPaginateParam(query),
       this.pageService.paginate(query),
     );
-    return this.pageService.response({
-      items: list,
-      total,
-      page: query?.page,
-      pageSize: query?.pageSize,
-    });
   }
 
   @Get('/total-sales')

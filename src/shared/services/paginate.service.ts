@@ -26,7 +26,7 @@ export class PaginateService {
     const page = +data.page || 1;
     const pageSize = +data.pageSize || 10;
     return {
-      items: data.items,
+      items: data.items || [],
       pagination: {
         total: data.total,
         page,

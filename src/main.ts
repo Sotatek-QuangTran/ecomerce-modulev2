@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ExceptionError } from './exceptions/error.exception';
 import { ValidationPipe } from '@nestjs/common';
 import { ResponseInterceptor } from './interceptors';
+import { PaginateService } from './shared/services/paginate.service';
 
 const PORT = parseInt(process.env.PORT ?? '3002');
 async function bootstrap() {
@@ -11,7 +12,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.useGlobalFilters(new ExceptionError());
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalInterceptors(new ResponseInterceptor(app.get(PaginateService)));
   const config = new DocumentBuilder()
     .addServer(process.env.DOMAIN)
     .addBearerAuth()

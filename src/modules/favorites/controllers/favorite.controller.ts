@@ -5,7 +5,7 @@ import { FavoriteCreateDto, FavoriteReqDto } from '../dtos/favorite.dto';
 import { PaginateService } from 'src/shared/services/paginate.service';
 import { CriteriaService } from 'src/shared/services/criteria.service';
 
-@ControllerCustom('/favorite', 'Favorite', false)
+@ControllerCustom('/favorite', 'Favorite', true)
 export class FavoriteController {
   constructor(
     private favoriteService: FavoriteService,
@@ -24,10 +24,9 @@ export class FavoriteController {
     @Request() req: { user: { id: number } },
   ) {
     query.userId = req.user.id;
-    const { items, total } = await this.favoriteService.findAndCount(
+    return await this.favoriteService.findAndCount(
       this.criteriaService.handleParam(query),
       this.pageService.paginate(query),
     );
-    return { items, total };
   }
 }

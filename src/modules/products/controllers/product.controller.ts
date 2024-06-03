@@ -17,16 +17,10 @@ export class ProductController {
 
   @Get('/list')
   async getList(@Query() query: ProductQueryReq) {
-    const { list, total } = await this.productService.findAndCount(
+    return await this.productService.findAndCount(
       this.criteriaService.handleParam(query),
       this.pageService.paginate(query),
     );
-    return this.pageService.response({
-      items: list,
-      total,
-      page: query?.page,
-      pageSize: query?.pageSize,
-    });
   }
 
   @Get('/detail/:id')
