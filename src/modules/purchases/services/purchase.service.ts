@@ -32,7 +32,7 @@ export class PurchaseService {
         order.purchaseId = purchase.id;
         const variant = await manage.findOne(ProductVariantEntity, {
           where: { id: order.productVariantId },
-          lock: { mode: 'pessimistic_write' }
+          lock: { mode: 'pessimistic_write' },
         });
         if (variant.stock - order.quantity < 0) {
           throw new BadRequestException('Out of stock');

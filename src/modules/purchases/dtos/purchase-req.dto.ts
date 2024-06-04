@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsInt, IsNumber } from 'class-validator';
+import { IsArray, IsNumber } from 'class-validator';
 import { QueryCommonDto } from 'src/common';
 
 class OrderCreateDto {
@@ -16,8 +16,6 @@ class OrderCreateDto {
 }
 
 export class PurchaseCreateDto {
-  @ApiProperty()
-  @IsInt()
   userId: number;
 
   @ApiProperty()
