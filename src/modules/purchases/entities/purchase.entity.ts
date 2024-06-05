@@ -13,6 +13,9 @@ export class PurchaseEntity extends EntityIdIntCommon {
   @Column({ default: 'pending' })
   status: string;
 
+  @Column({ type: 'integer', unique: true })
+  code: number;
+
   @OneToMany(() => OrderEntity, (p) => p.purchase, {
     createForeignKeyConstraints: false,
     cascade: true,

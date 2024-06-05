@@ -17,7 +17,7 @@ export class PurchaseController {
     @Request() req: { user: { id: number } },
   ) {
     body.userId = req.user.id;
-    return await this.purchaseService.create(body);
+    return await this.purchaseService.create1(body);
   }
 
   @Get('/list')

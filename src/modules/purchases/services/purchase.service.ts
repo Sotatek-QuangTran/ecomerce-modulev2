@@ -7,6 +7,7 @@ import { OrderEntity } from '../entities/order.entity';
 import { IPaginate } from 'src/common/inteface.common';
 import { ProductVariantEntity } from 'src/modules/products/entities/product-variant.entity';
 import { CartEntity } from 'src/modules/carts/entities/cart.entity';
+import { PurchaseCodeEntity } from '../entities/purchase-code.entity';
 
 @Injectable()
 export class PurchaseService {
@@ -22,10 +23,20 @@ export class PurchaseService {
     await queryRunner.startTransaction();
     try {
       const manage = queryRunner.manager;
+      const purchaseCode = await manage.findOne(PurchaseCodeEntity, {
+        lock: { mode: 'pessimistic_write' },
+        where: {},
+      });
       const purchase = await manage.save(
         manage.create(PurchaseEntity, {
           userId: data.userId,
+          code: +purchaseCode.code + 1,
         }),
+      );
+      await manage.update(
+        PurchaseCodeEntity,
+        {},
+        { code: +purchaseCode.code + 1 },
       );
       const orders = [];
       for (const order of data.orders) {
@@ -57,7 +68,64 @@ export class PurchaseService {
       return purchase;
     } catch (error) {
       await queryRunner.rollbackTransaction();
-      throw new Error(error);
+      throw new BadRequestException(error.message);
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
+  async create1(data: PurchaseCreateDto) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const manage = queryRunner.manager;
+      const orders: OrderEntity[] = [];
+      for (const order of data.orders) {
+        const variant = await manage.findOne(ProductVariantEntity, {
+          where: { id: order.productVariantId },
+          lock: { mode: 'pessimistic_write' },
+        });
+        if (variant.stock - order.quantity < 0) {
+          throw new BadRequestException('Out of stock');
+        }
+        orders.push(order as OrderEntity);
+        await manage.update(
+          ProductVariantEntity,
+          { id: variant.id },
+          { stock: variant.stock - order.quantity },
+        );
+        await manage.softDelete(CartEntity, {
+          userId: data.userId,
+          productVariantId: order.productVariantId,
+        });
+      }
+      const purchaseCode = await manage.findOne(PurchaseCodeEntity, {
+        lock: { mode: 'pessimistic_write' },
+        where: {},
+      });
+      const purchase = await manage.save(
+        manage.create(PurchaseEntity, {
+          userId: data.userId,
+          code: +purchaseCode.code + 1,
+        }),
+      );
+      await manage.update(
+        PurchaseCodeEntity,
+        {},
+        { code: +purchaseCode.code + 1 },
+      );
+      orders.forEach((o) => (o.purchaseId = purchase.id));
+      const save = await manage.save(
+        OrderEntity,
+        manage.create(OrderEntity, orders),
+      );
+      purchase.orders = save;
+      await queryRunner.commitTransaction();
+      return purchase;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw new BadRequestException(error.message);
     } finally {
       await queryRunner.release();
     }
