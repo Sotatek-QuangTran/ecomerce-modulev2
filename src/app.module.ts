@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/users/user.module';
 import { JwtModule } from '@nestjs/jwt';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ProductModule } from './modules/products/product.module';
 import { PurchaseModule } from './modules/purchases/purchase.module';
 import { WhitePaperModule } from './modules/whitepapers/whitepaper.module';
@@ -11,6 +11,7 @@ import { SnakeNamingStrategy } from './snakecase.strategy';
 import { CartModule } from './modules/carts/cart.module';
 import { FavoriteModule } from './modules/favorites/favorite.module';
 import { CategoryModule } from './modules/categories/category.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -49,6 +50,12 @@ import { CategoryModule } from './modules/categories/category.module';
         secret: config.get('JWT_SECRETKEY'),
       }),
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 2000,
+        limit: 3,
+      },
+    ]),
     UserModule,
     ProductModule,
     PurchaseModule,
@@ -61,6 +68,10 @@ import { CategoryModule } from './modules/categories/category.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })

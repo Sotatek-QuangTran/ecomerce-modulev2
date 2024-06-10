@@ -19,6 +19,14 @@ export class ExceptionError implements ExceptionFilter {
       const err: any = exception.getResponse();
       if (Array.isArray(err.message) && err.message.length > 0)
         err.message = err.message[0];
+      if (err === 'ThrottlerException: Too Many Requests') {
+        return response.status(status).json({
+          errorCode: 1,
+          error: 'Too Many Requests',
+          statusCode: status,
+          message: 'Too Many Requests',
+        });
+      }
       return response.status(status).json({
         errorCode: 1,
         ...err,
