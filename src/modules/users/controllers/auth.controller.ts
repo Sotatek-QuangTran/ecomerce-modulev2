@@ -1,4 +1,4 @@
-import { Body, Post } from '@nestjs/common';
+import { Body, Post, Res } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import {
   UserCreateDto,
@@ -14,6 +14,7 @@ import { RedisService } from 'src/shared/services/redis.service';
 import { v4 } from 'uuid';
 import { MailService } from 'src/modules/mail/services/mail.service';
 import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
 
 @ControllerCustom('/auth', 'Auth')
 export class AuthController {
@@ -48,6 +49,23 @@ export class AuthController {
     await this.redisService.del(user.id + '');
     // await this.redisService.redis.set(user.id + '', key, 'NX');
     await this.redisService.redis.set(user.id + '', key, 'EX', 3600, 'NX');
+    return { token, user };
+  }
+
+  @Post('/signin')
+  @ApiOkResponse({ type: UserDto })
+  async signInWithCookie(
+    @Body() body: UserSignIn,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const user = await this.userService.findOneByUsernamePassword(body);
+    const token = await this.jwtService.signAsync({
+      id: user.id,
+    });
+    res.cookie('token', token, {
+      expires: new Date(Date.now() + 10000),
+      httpOnly: true,
+    });
     return { token, user };
   }
 

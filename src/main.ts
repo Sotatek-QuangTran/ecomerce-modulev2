@@ -5,6 +5,7 @@ import { ExceptionError } from './exceptions/error.exception';
 import { ValidationPipe } from '@nestjs/common';
 import { ResponseInterceptor } from './interceptors';
 import { PaginateService } from './shared/services/paginate.service';
+import * as cookieParser from 'cookie-parser';
 
 const PORT = parseInt(process.env.PORT ?? '3002');
 async function bootstrap() {
@@ -13,6 +14,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.useGlobalFilters(new ExceptionError());
   app.useGlobalInterceptors(new ResponseInterceptor(app.get(PaginateService)));
+  app.use(cookieParser());
   const config = new DocumentBuilder()
     .addServer(process.env.DOMAIN)
     .addBearerAuth()

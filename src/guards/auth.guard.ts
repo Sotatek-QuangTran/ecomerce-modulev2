@@ -21,12 +21,30 @@ export class AuthenUserGuard implements CanActivate {
     if (type !== 'Bearer') {
       throw new UnauthorizedException('UnAuthorized');
     }
-    //login here//
     const payload = await this.jwtService.verifyAsync(token);
     const getRedis = await this.redisService.get(payload.id);
     if (!getRedis || getRedis !== payload.key) {
       throw new UnauthorizedException();
     }
+    const user = await this.userService.findOne({ id: payload.id });
+    request['user'] = user;
+    return true;
+  }
+}
+
+@Injectable()
+export class AuthenUserByCookieGuard implements CanActivate {
+  constructor(
+    private userService: UserService,
+    private jwtService: JwtService,
+  ) {}
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest();
+    const token = request.cookies['token'];
+    if (!token) {
+      throw new UnauthorizedException('UnAuthorized');
+    }
+    const payload = await this.jwtService.verifyAsync(token);
     const user = await this.userService.findOne({ id: payload.id });
     request['user'] = user;
     return true;
