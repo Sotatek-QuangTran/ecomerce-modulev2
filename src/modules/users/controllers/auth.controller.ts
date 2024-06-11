@@ -52,7 +52,7 @@ export class AuthController {
     return { token, user };
   }
 
-  @Post('/signin')
+  @Post('/signin-cookie')
   @ApiOkResponse({ type: UserDto })
   async signInWithCookie(
     @Body() body: UserSignIn,
